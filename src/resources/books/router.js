@@ -1,4 +1,7 @@
 // Import here...
+const express = require("express");
+
+const router = express.Router();
 
 const books = [
   {
@@ -28,3 +31,40 @@ const books = [
 ];
 
 // Write routes here...
+router.get("/", (req, res) => {
+  //console.log("here");
+  res.json({ books });
+});
+
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+
+  const parsedId = parseInt(id);
+  const book = books.find((book) => book.id === parsedId);
+
+  res.json({ book });
+});
+
+router.get("/type/:type", (req, res) => {
+  const { type } = req.params;
+
+  const book = books.filter((book) => book.type === type);
+
+  res.json({ book });
+});
+
+router.post("/", (req, res) => {
+  const bookToCreate = {
+    ...req.body
+  };
+
+  bookToCreate.id = books.length + 1;
+
+  const updatedBooks = [...users, userToCreate];
+
+  console.log("Check updatedBooks: ", updatedBooks);
+
+  res.json({ book: bookToCreate });
+});
+
+module.exports = router;
